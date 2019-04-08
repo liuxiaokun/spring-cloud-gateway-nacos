@@ -1,5 +1,5 @@
 server:
-  port: 12000
+  port: 6111
 spring:
   application:
     name: spring-cloud-gateway
@@ -7,3 +7,35 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.1.12:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+      - id: host_route
+        uri: http://localhost:6001
+        predicates:
+        - Path=/common/**
+        filters:
+        - StripPrefix=1
+
+      - id: host_route
+        uri: http://localhost:6002
+        predicates:
+        - Path=/community/**
+        filters:
+        - StripPrefix=1
+
+      - id: host_route
+        uri: http://localhost:6003
+        predicates:
+        - Path=/mall/**
+        filters:
+        - StripPrefix=1
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
