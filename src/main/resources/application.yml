@@ -16,6 +16,7 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        # 按照前缀，跳转url地址
       - id: host_route
         uri: http://192.168.1.200:8887
         predicates:
@@ -36,5 +37,15 @@ spring:
         - Path=/mall/**
         filters:
         - StripPrefix=1
+      # 按照前缀，跳转服务
+      - id: nacos-config
+        uri: lb://nacos-config
+        # 实际就是前缀，按照前缀进行跳转匹配
+        predicates:
+        - Path=/nacos-config/**
+        # 去除上面的前缀 nacos-config
+        filters:
+        - StripPrefix=1
+
   profiles:
     active: dev
