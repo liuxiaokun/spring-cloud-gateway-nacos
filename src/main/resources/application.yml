@@ -46,6 +46,7 @@ spring:
         # 去除上面的前缀 nacos-config
         filters:
         - StripPrefix=1
+        - Elapsed=true
 
   profiles:
     active: dev
